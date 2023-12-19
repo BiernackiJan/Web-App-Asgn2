@@ -1,5 +1,5 @@
 import React from "react";
-import { getTopRatedMovies } from "../api/tmdb-api";
+import { getTopRatedMovies } from "../api/movies-api";
 import PageTemplate from '../components/templateTopRatedPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';

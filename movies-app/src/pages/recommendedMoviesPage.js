@@ -1,5 +1,5 @@
 import React from "react";
-import { getRecommendedMovies } from "../api/tmdb-api";
+import { getRecommendedMovies } from "../api/movies-api";
 import PageTemplate from '../components/templateRecommendedMoviesPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';

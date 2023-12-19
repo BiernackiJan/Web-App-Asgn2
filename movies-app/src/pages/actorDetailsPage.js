@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import ActorDetails from "../components/actorDetails/";
 import PageTemplate from "../components/templateActorDetails";
-import { getActor, getActorCredits } from '../api/tmdb-api'
+import { getActor, getActorCredits } from '../api/movies-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
 import AddToWatchListIcon from '../components/cardIcons/addToWatchList'
@@ -31,7 +31,7 @@ const ActorPage = () => {
 
   const popularList = allMovies.filter(m => m.popularList)
   localStorage.setItem('actorMovies', JSON.stringify(popularList));
-  const addToPopularList = (movieId) => true
+  // const addToPopularList = (movieId) => true
 
   return (
     <>

@@ -3,7 +3,7 @@ import Header from "../headerMovieList";
 import ActorList from "../actorList";
 import Grid from "@mui/material/Grid";
 import { useQuery } from "react-query";
-import { getActorImages } from "../../api/tmdb-api";
+import { getActorImages } from "../../api/movies-api";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";

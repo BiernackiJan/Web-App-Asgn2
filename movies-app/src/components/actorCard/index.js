@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { getActorImages } from "../../api/tmdb-api";
+import { getActorImages } from "../../api/movies-api";
 import img from '../../images/actor-place-holder-image.jpg'
 import { Link } from "react-router-dom";
 

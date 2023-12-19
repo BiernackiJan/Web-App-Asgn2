@@ -1,7 +1,7 @@
 import React from "react";
 import PageTemplate from '../components/templateMovieCastPage';
 import { useQuery } from 'react-query';
-import { getCast } from "../api/tmdb-api";
+import { getCast } from "../api/movies-api";
 import { useParams } from "react-router-dom";
 import Spinner from '../components/spinner';
 

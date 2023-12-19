@@ -1,5 +1,5 @@
 import React from "react";
-import { getActorsDaily } from "../api/tmdb-api";
+import { getActorsDaily } from "../api/movies-api";
 import PageTemplate from '../components/templateActorsListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';

@@ -17,7 +17,7 @@ import Avatar from '@mui/material/Avatar';
 import InfoIcon from "@mui/icons-material/Info";
 import { Tooltip } from "@mui/material";
 import RecommendedIcon from '@mui/icons-material/NewReleases';
-import { getRecommendedMovies } from "../../api/tmdb-api";
+import { getRecommendedMovies } from "../../api/movies-api";
 
 
 export default function MovieCard({ movie, action }) {

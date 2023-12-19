@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
-import { getSortedMovies } from "../../api/tmdb-api";
-import { useQuery } from "react-query";
+import { getSortedMovies, getMovies } from "../../api/movies-api";
+import { useQuery } from "react-query"; 
 
 
 function MovieListPageTemplate({ movies, title, action }) {  
@@ -22,18 +22,20 @@ function MovieListPageTemplate({ movies, title, action }) {
 
 
   let { data, error, isLoading, isError, refetch  } = useQuery('discover', () => {
-    if (orderFilter) {
+    if (orderFilter !== " ") {
       movies = []
       data = []
       return getSortedMovies(orderFilter);
-    } else {
-      return Promise.resolve( data = movies ); // Uses the passed-in movies when sortOrderFilter is empty
-    }
+    } else if (orderFilter === " "){
+      return getMovies // Uses the passed-in movies when sortOrderFilter is empty
+    } else data = movies
   });
+
+  console.log(orderFilter)
   
-  React.useEffect(() => {
+  useEffect(() => {
     refetch();
-  }, [orderFilter]);
+  }, [orderFilter,refetch]);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);

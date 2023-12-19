@@ -308,7 +308,7 @@ const LoginPage = props => {
             </div>
             <div style={{ color: 'white' }}>
               Not Registered?
-              <Link to="/signup" style={{ color: 'green', marginLeft: '5px' }}>
+              <Link to={"/register"} style={{ color: 'green', marginLeft: '5px' }}>
                 Sign Up!
               </Link>
             </div>

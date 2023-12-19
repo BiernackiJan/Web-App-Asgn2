@@ -4,7 +4,7 @@ import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
-import { getSortedMovies } from "../../api/tmdb-api";
+import { getSortedMovies } from "../../api/movies-api";
 import { useQuery } from "react-query";
 
 

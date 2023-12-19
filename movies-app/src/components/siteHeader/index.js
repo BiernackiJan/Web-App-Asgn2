@@ -69,7 +69,6 @@ const SiteHeader = ({ history }) => {
     } else {
       navigate(pageURL, { replace: true });
     }
-    // window.location.reload();
   };
 
 
@@ -115,7 +114,6 @@ const SiteHeader = ({ history }) => {
                     horizontal: "right",
                   }}
                   open={open}
-                  onClose={() => setAnchorEl(null)}
                 >
                   {actorOptions.map((opt) => (
                     <MenuItem

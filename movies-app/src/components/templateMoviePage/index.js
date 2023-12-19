@@ -3,15 +3,17 @@ import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getMovieImages } from "../../api/tmdb-api";
+import { getMovieImages } from "../../api/movies-api";
 import { useQuery } from "react-query";
+import { useParams } from 'react-router-dom';
 import Spinner from '../spinner'
 
 
 const TemplateMoviePage = ({ movie, children}) => {
+  const { id } = useParams();
   const { data , error, isLoading, isError } = useQuery(
     ["images", { id: movie.id }],
-    getMovieImages
+    () => getMovieImages(id)
   );
 
   if (isLoading) {
