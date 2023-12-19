@@ -1,39 +1,37 @@
-import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../firebaseConfig"
-import '../../login.css';
+import React, {useContext, useState } from "react";
+import { Navigate, Link } from "react-router-dom";
+import { AuthContext } from '../contexts/authContext';
+import '../login.css';
 
-const SignUp = () => {
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const [error, setError] = useState(null);
-const navigate = useNavigate();
+const SignUpPage = props => {
+  const context = useContext(AuthContext)
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [registered, setRegistered] = useState(false);
 
   
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const register = () => {
+    let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const validPassword = passwordRegEx.test(password);
 
-    
-    try {
-        setError(null);
-  
-        if (password.length < 6) {
-          setError("Password should be at least 6 characters");
-          return;
-        }
-
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/login");
-    } 
-    catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-        setError("Email is already in use");
-      } else {
-        console.error("Registration error:", error);
-      }
+    if (validPassword && password === passwordAgain) {
+      context.register(userName, password);
+      setRegistered(true);
     }
-};
+  }
+
+  if (registered === true) {
+    return <Navigate to="/login" />;
+  }
+  
+  // catch (error) {
+  //     if (error.code === "auth/email-already-in-use") {
+  //     setError("Email is already in use");
+  //   } else {
+  //     console.error("Registration error:", error);
+  //   }
+  // }
 
   return (
     <section className="body">
@@ -302,20 +300,29 @@ const navigate = useNavigate();
       <div className="signin">
         <div className="content">
           <h2>Sign Up</h2>
-          {error && <div className="errorbubble">{error}</div>}
-          <form className="form" onSubmit={handleRegister}>
+          <div className="form" >
             <div className="inputBox">
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              <i>Email</i>
+              <input value={userName} onChange={(e) => setUserName(e.target.value)} required />
+              <i>Username</i>
             </div>
             <div className="inputBox">
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              <i>Password</i>
+              <i>Set Password</i>
             </div>
             <div className="inputBox">
-              <input type="submit" value={"Register"}/>
+              <input type="password" value={passwordAgain} onChange={(e) => setPasswordAgain(e.target.value)} required />
+              <i>Set Again Password</i>
             </div>
-          </form>
+            <div className="inputBox">
+              <input type="submit" value={"Register"} onClick={register}/>
+            </div>
+            <div style={{ color: 'white' }}>
+              Already Signed Up?
+              <Link to="/login" style={{ color: 'green', marginLeft: '5px' }}>
+                Login!
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -323,4 +330,4 @@ const navigate = useNavigate();
   );
 };
 
-export default SignUp;
+export default SignUpPage;

@@ -1,28 +1,32 @@
-import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../firebaseConfig"
-import '../../login.css';
+import React, {useContext, useState } from "react";
+import {  Navigate, useLocation} from "react-router-dom";
+import { AuthContext } from '../contexts/authContext';
+import { Link } from "react-router-dom";
+import '../login.css';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
+const LoginPage = props => {
+  const context = useContext(AuthContext);
+
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null)
-  const navigate = useNavigate();
-  
-  const handleLogin = async (e) => {
-    e.preventDefault();
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/"); // Redirect to the home page after successful login
-    } catch (error) {
-      setError("Invalid email or password. Please try again.");
-      console.error("Error signing in:", error.message);
-    }
+  const login = () => {
+      context.authenticate(userName, password);
   };
 
+  let location = useLocation();
+
+  const { from } = location.state ? { from: location.state.from.pathname } : { from: "/" };
   
+  if (context?.isAuthenticated === true) {
+    return <Navigate to={from} />;
+  }
+
+
+  // catch (error) {
+  //   setError("Invalid email or password. Please try again.");
+  //   console.error("Error signing in:", error.message);
+  // }
 
   return (
     <section className="body">
@@ -291,24 +295,28 @@ const Login = () => {
       <div className="signin">
         <div className="content">
           <h2>Sign In</h2>
-          {error && <div className="errorbubble">{error}</div>}
-          <form className="form" onSubmit={handleLogin}>
+          {/* {error && <div className="errorbubble">{error}</div>} */}
+          <div className="form">
             <div className="inputBox">
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
-              <i>Email</i>
+              <input id="username" placeholder="User Name" onChange={e => setUserName(e.target.value)} required/>
             </div>
             <div className="inputBox">
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
-              <i>Password</i>
+              <input id="password" type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} required/>
             </div>
             <div className="inputBox">
-              <input type="submit" value={"Login"}/>
+              <input type="submit" value={"Login"}  onClick={login}/>
             </div>
-          </form>
+            <div style={{ color: 'white' }}>
+              Not Registered?
+              <Link to="/signup" style={{ color: 'green', marginLeft: '5px' }}>
+                Sign Up!
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default Login;
+export default LoginPage;

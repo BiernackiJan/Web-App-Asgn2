@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -18,12 +18,11 @@ import NowPlaying from "@mui/icons-material/Videocam";
 import TopRated from "@mui/icons-material/LocalFireDepartment"
 import Upcoming from "@mui/icons-material/Update"
 import Actor from "@mui/icons-material/Person"
-import { auth } from "../firebaseConfig"
-import { onAuthStateChanged, signOut } from 'firebase/auth';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+import { AuthContext } from "../../contexts/authContext";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
@@ -31,7 +30,7 @@ const SiteHeader = ({ history }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const [user, setUser] = useState(null);
+  const context = useContext(AuthContext);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -66,14 +65,13 @@ const SiteHeader = ({ history }) => {
 
   const handleMenuSelect = (pageURL) => {
     if (pageURL === "/logout") {
-      signOut(auth).then(() => {
-        navigate("/login");
-      });
+      context.signout()
     } else {
       navigate(pageURL, { replace: true });
     }
     // window.location.reload();
   };
+
 
   const handleTrendingSelect = (pageURL) => {
     navigate(pageURL, { replace: true });
@@ -83,16 +81,6 @@ const SiteHeader = ({ history }) => {
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   return (
     <>
@@ -172,7 +160,6 @@ const SiteHeader = ({ history }) => {
                   {menuOptions.map((opt) => (
                     <MenuItem
                       key={opt.label }
-                      onClick={() => handleMenuSelect(opt.path)}
                     >
                       {opt.label}
                     </MenuItem>
@@ -194,7 +181,7 @@ const SiteHeader = ({ history }) => {
                   </Button>
                 ))}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '10px'}}>
-                 {user ? (
+                 {context?.isAuthenticated ? (
                   <> 
                     {accountOptions.map((opt) => (
                       <Button
@@ -227,7 +214,6 @@ const SiteHeader = ({ history }) => {
                  )}
                 </div>
                 
-
             </>
             )}
         </Toolbar>
