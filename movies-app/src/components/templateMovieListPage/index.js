@@ -4,7 +4,7 @@ import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
-import { getSortedMovies, getMovies } from "../../api/movies-api";
+import { getSortedMovies } from "../../api/movies-api";
 import { useQuery } from "react-query"; 
 
 
@@ -26,12 +26,10 @@ function MovieListPageTemplate({ movies, title, action }) {
       movies = []
       data = []
       return getSortedMovies(orderFilter);
-    } else if (orderFilter === " "){
-      return getMovies // Uses the passed-in movies when sortOrderFilter is empty
-    } else data = movies
+    } else {
+      return  data = movies  // Uses the passed-in movies when sortOrderFilter is empty
+    }
   });
-
-  console.log(orderFilter)
   
   useEffect(() => {
     refetch();
