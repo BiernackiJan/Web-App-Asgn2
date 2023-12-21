@@ -25,11 +25,11 @@ const MoviesContextProvider = (props) => {
   const addToWatchList = async (movie) => {
     const result = await addToList(movie, userName);
     
-    getList()
+    getTheList()
     return (result.code === 201) ? true : false;
   };
 
-  const getList = async () => {
+  const getTheList = async () => {
     const watch = await getWatchList(userName)
     setWatchList(watch)
   }
@@ -49,7 +49,7 @@ const MoviesContextProvider = (props) => {
 
   const removeFromWatchList =  (movie) => {
     removeFromList(movie , userName)
-    getList()
+    getTheList()
   };
 
 
@@ -57,7 +57,7 @@ const MoviesContextProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       await getFavorites();
-      await getList();
+      await getTheList();
     };
 
     if (userName) {
@@ -81,6 +81,7 @@ const MoviesContextProvider = (props) => {
         addToFavorites,
         getFavorites,
         addToWatchList,
+        getTheList,
         removeFromFavorites,
         removeFromWatchList,
         addReview,
