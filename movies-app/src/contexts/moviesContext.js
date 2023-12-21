@@ -1,33 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useState} from "react";
+import { addFavourites, getFavourites, getWatchList, addToList } from "../api/movies-api";
+import { AuthContext } from "./authContext";
 
 export const MoviesContext = React.createContext(null);
 
 const MoviesContextProvider = (props) => {
+  const { userName } = useContext(AuthContext)
   const [favorites, setFavorites] = useState( [] )
   const [watchList, setWatchList] = useState( [] )
+  
 
-
-  const addToFavorites = (movie) => {
-    let newFavorites = [];
-    if (!favorites.includes(movie.id)){
-      newFavorites = [...favorites, movie.id];
-    }
-    else{
-      newFavorites = [...favorites];
-    }
-    setFavorites(newFavorites)
+  const addToFavorites = async (movie) => {
+    const result = await addFavourites(movie, userName);
+    
+    getFavorites()
+    return (result.code === 201) ? true : false;
   };
 
-  const addToWatchList = (movie) => {
-    let newWatchList = [];
-    if (!watchList.includes(movie.id)){
-      newWatchList = [...watchList, movie.id];
-    }
-    else{
-      newWatchList = [...watchList];
-    }
-    setWatchList(newWatchList)
+  const getFavorites = async () => {
+    const fav = await getFavourites(userName)
+    setFavorites(fav)
+  }
+
+  const addToWatchList = async (movie) => {
+    const result = await addToList(movie, userName);
+    
+    getList()
+    return (result.code === 201) ? true : false;
   };
+
+  const getList = async () => {
+    const watch = await getWatchList(userName)
+    setWatchList(watch)
+  }
+
 
   const [myReviews, setMyReviews] = useState( {} ) 
 
@@ -48,12 +54,20 @@ const MoviesContextProvider = (props) => {
     ) )
   };
 
+
+
+
+  // useEffect(() => {
+  //   getAll();
+  // }, [userName]);
+
   return (
     <MoviesContext.Provider
       value={{
         favorites,
         watchList,
         addToFavorites,
+        getFavorites,
         addToWatchList,
         removeFromFavorites,
         removeFromWatchList,

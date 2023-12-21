@@ -13,8 +13,11 @@ const passwordValidator = {
 
 const UserSchema = new Schema({
   username: { type: String, unique: true, required: true},
-  password: {type: String, required: true,  validate: passwordValidator }
+  password: {type: String, required: true,  validate: passwordValidator },
+  favorites: [{ type: Schema.Types.Mixed }],
+  watchList: [{ type: Schema.Types.Mixed }]
 });
+
 
 UserSchema.methods.comparePassword = async function (passw) { 
   return await bcrypt.compare(passw, this.password); 
@@ -23,6 +26,10 @@ UserSchema.methods.comparePassword = async function (passw) {
 UserSchema.statics.findByUserName = function (username) {
   return this.findOne({ username: username });
 };
+
+UserSchema.statics.findByUserId = function (userId) {
+  return this.findOne({ _id: userId})
+}
 
 UserSchema.pre('save', async function(next) {
   const saltRounds = 10; // You can adjust the number of salt rounds

@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../headerMovieList";
-import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
-import Pagination from "@mui/material/Pagination";
-import { getSortedMovies } from "../../api/movies-api";
-import { useQuery } from "react-query";
 
 
 function MovieListPageTemplate({ movies, title, action }) {    

@@ -17,27 +17,13 @@ import Avatar from '@mui/material/Avatar';
 import InfoIcon from "@mui/icons-material/Info";
 import { Tooltip } from "@mui/material";
 import RecommendedIcon from '@mui/icons-material/NewReleases';
-import { getRecommendedMovies } from "../../api/movies-api";
 
 
 export default function MovieCard({ movie, action }) {
-  const { favorites, addToFavorites } = useContext(MoviesContext);
-
-  const { watchList, addToWatchList } = useContext(MoviesContext);
+  const { favorites, addToFavorites, watchList, addToWatchList } =
+    useContext(MoviesContext);
 
   const id = movie.id;
-
-  if (favorites.find((id) => id === movie.id)) {
-    movie.favorite = true;
-  } else {
-    movie.favorite = false
-  }
-
-  if (watchList.find((id) => id === movie.id)) {
-    movie.watchList = true;
-  } else {
-    movie.watchList = false
-  }
 
   const handleAddToFavorite = (e) => {
     e.preventDefault();
@@ -49,27 +35,25 @@ export default function MovieCard({ movie, action }) {
     addToWatchList(movie);
   };
 
-  const handleGetRecommendedMovies = (e) => {
-    e.preventDefault();
-    getRecommendedMovies(movie.id);
-  };
 
+  const isFavorite = favorites.some((favMovie) => favMovie.id === movie.id);
+  const isWatchListed = watchList.some((watchMovie) => watchMovie.id === movie.id);
 
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardHeader
         avatar={
           <React.Fragment>
-          {movie.favorite && (
-            <Avatar sx={{ backgroundColor: 'red', marginRight: .5 }}>
-              <FavoriteIcon />
-            </Avatar>
-          )}
-          {movie.watchList && (
-            <Avatar sx={{ backgroundColor: 'blue'}}>
-              <WatchListIcon />
-            </Avatar>
-          )}
+            {isFavorite && (
+              <Avatar sx={{ backgroundColor: 'red', marginRight: 0.5 }}>
+                <FavoriteIcon />
+              </Avatar>
+            )}
+            {isWatchListed && (
+              <Avatar sx={{ backgroundColor: 'blue' }}>
+                <WatchListIcon />
+              </Avatar>
+            )}
           </React.Fragment>
         }
         title={

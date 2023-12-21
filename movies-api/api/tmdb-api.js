@@ -17,6 +17,7 @@ export const getUpcomingMovies = async () => {
 };
 
 
+
 export const getMovies = async () => {
     const totalPagesToFetch = 10;
     const moviePromises = [];

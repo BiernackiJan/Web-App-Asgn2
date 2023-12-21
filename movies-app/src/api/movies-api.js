@@ -340,27 +340,7 @@ export const getGenres = async () => {
 
 
 
-export const login = async (username, password) => {
-  const response = await fetch('http://localhost:8080/api/users', {
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      method: 'post',
-      body: JSON.stringify({ username: username, password: password })
-  });
-  return response.json();
-};
 
-export const signup = async (username, password) => {
-  const response = await fetch('http://localhost:8080/api/users?action=register', {
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      method: 'post',
-      body: JSON.stringify({ username: username, password: password })
-  });
-  return response.json();
-};
 
 export const getMovieReviews = async (id) => {
   console.log(window.localStorage.getItem('token'))
@@ -519,5 +499,81 @@ export const getSortedMovies = async (orderFilter) => {
     }
   }
   )
+  return response.json();
+};
+
+
+export const login = async (username, password) => {
+  const response = await fetch('http://localhost:8080/api/users', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ username: username, password: password })
+  });
+  return response.json();
+};
+
+export const signup = async (username, password) => {
+  const response = await fetch('http://localhost:8080/api/users?action=register', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ username: username, password: password })
+  });
+  return response.json();
+};
+
+
+
+export const addFavourites = async (movie, username) => {
+  console.log(window.localStorage.getItem('token'))
+  console.log(movie, username)
+  const response = await fetch('http://localhost:8080/api/users/addFavourites', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ movie: movie, username: username })
+  });
+  return response.json();
+};
+
+export const getFavourites = async (username) => {
+  console.log(window.localStorage.getItem('token'))
+  const response = await fetch(`http://localhost:8080/api/users/getFavourites/${username}`, {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+      },
+      method: 'get',
+  });
+  return response.json();
+};
+
+
+export const addToList = async (movie, username) => {
+  console.log(window.localStorage.getItem('token'))
+  console.log(movie, username)
+  const response = await fetch('http://localhost:8080/api/users/addToWatchList', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ movie: movie, username: username })
+  });
+  return response.json();
+};
+
+export const getWatchList = async (username) => {
+  console.log(window.localStorage.getItem('token'))
+  const response = await fetch(`http://localhost:8080/api/users/getWatchList/${username}`, {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+      },
+      method: 'get',
+  });
   return response.json();
 };
