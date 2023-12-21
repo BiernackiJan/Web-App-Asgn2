@@ -1,5 +1,5 @@
-import React, { useContext, useState} from "react";
-import { addFavourites, getFavourites, getWatchList, addToList } from "../api/movies-api";
+import React, { useContext, useState, useEffect} from "react";
+import { addFavourites, getFavourites, getWatchList, addToList, removeFavourite, removeFromList } from "../api/movies-api";
 import { AuthContext } from "./authContext";
 
 export const MoviesContext = React.createContext(null);
@@ -42,20 +42,32 @@ const MoviesContextProvider = (props) => {
   };
   
   // We will use this function in a later section
-  const removeFromFavorites = (movie) => {
-    setFavorites( favorites.filter(
-      (mId) => mId !== movie.id
-    ) )
+  const removeFromFavorites = async (movie) => {
+    removeFavourite(movie , userName)
+    getFavorites()
   };
 
-  const removeFromWatchList = (movie) => {
-    setWatchList( watchList.filter(
-      (mId) => mId !== movie.id
-    ) )
+  const removeFromWatchList =  (movie) => {
+    removeFromList(movie , userName)
+    getList()
   };
 
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await getFavorites();
+      await getList();
+    };
+
+    if (userName) {
+      fetchData();
+    }
+  }, [userName]);
+  // const getAll = () =>{
+  //   getWatchList()
+  //   getFavorites()
+  // };
 
   // useEffect(() => {
   //   getAll();

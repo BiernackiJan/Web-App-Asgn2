@@ -8,30 +8,11 @@ import RemoveFromWatchList from "../components/cardIcons/removeFromWatchList";
 import WriteReview from "../components/cardIcons/writeReview";
 
 const WatchListPage = () => {
-  const {watchList: movieIds } = useContext(MoviesContext);
+  const { watchList } = useContext(MoviesContext);
 
-  // Create an array of queries and run in parallel.
-  const watchListQueries = useQueries(
-    movieIds.map((movieId) => {
-      return {
-        queryKey: ["upcomingMovie", { id: movieId }],
-        queryFn: getMovie,
-      };
-    })
-  );
-  // Check if any of the parallel queries is still loading.
-  const isLoading = watchListQueries.find((m) => m.isLoading === true);
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  const movies = watchList
 
-  const movies = watchListQueries.map((q) => {
-    q.data.genre_ids = q.data.genres.map(g => g.id)
-    return q.data
-  });
-
-  const toDo = () => true;
 
   return (
     <PageTemplate

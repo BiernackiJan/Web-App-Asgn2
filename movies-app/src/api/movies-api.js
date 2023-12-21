@@ -577,3 +577,32 @@ export const getWatchList = async (username) => {
   });
   return response.json();
 };
+
+export const removeFavourite = async (movie, username) => {
+  console.log(window.localStorage.getItem('token'))
+  console.log(movie, username)
+  const response = await fetch('http://localhost:8080/api/users/removeFavourite', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ movie: movie, username: username })
+  });
+  return response.json();
+};
+
+
+export const removeFromList = async (movie, username) => {
+  console.log(window.localStorage.getItem('token'))
+  console.log(movie, username)
+  const response = await fetch('http://localhost:8080/api/users/removeFromList', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ movie: movie, username: username })
+  });
+  return response.json();
+};

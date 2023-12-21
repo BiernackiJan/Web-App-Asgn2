@@ -102,6 +102,33 @@ router.get('/getFavourites/:username', async (req, res) => {
 });
 
 
+
+router.post('/removeFavourite', async (req, res) => {
+    try {
+        const user = await User.findByUserName(req.body.username);
+
+        if (!user) {
+            return res.status(401).json({ success: false, msg: 'Invalid token or user not authorized.' });
+        }
+
+        const userId = user._id;
+        const movie = req.body.movie;
+
+        // Find the user by ID and update their favorites array
+        const userUpdate = await User.findByIdAndUpdate(userId, { $pull: { favorites: movie } });
+
+        if (!userUpdate) {
+            return res.status(404).json({ success: false, msg: 'User not found.' });
+        }
+
+        res.status(200).json({ success: true, msg: 'Movie removed from favorites.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, msg: 'Internal server error.' });
+    }
+});
+
+
 router.post('/addToWatchList', async (req, res) => {
     try {
         const user = await User.findByUserName(req.body.username);
@@ -132,10 +159,37 @@ router.post('/addToWatchList', async (req, res) => {
     }
 });
 
+
 router.get('/getWatchList/:username', async (req, res) => {
     const user = await User.findByUserName(req.params.username);
     const watchList = user.watchList
     res.status(200).json(watchList);
+});
+
+
+router.post('/removeFromList', async (req, res) => {
+    try {
+        const user = await User.findByUserName(req.body.username);
+
+        if (!user) {
+            return res.status(401).json({ success: false, msg: 'Invalid token or user not authorized.' });
+        }
+
+        const userId = user._id;
+        const movie = req.body.movie;
+
+        // Find the user by ID and update their favorites array
+        const userUpdate = await User.findByIdAndUpdate(userId, { $pull: { watchList: movie } });
+
+        if (!userUpdate) {
+            return res.status(404).json({ success: false, msg: 'User not found.' });
+        }
+
+        res.status(200).json({ success: true, msg: 'Movie removed from watchlist.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, msg: 'Internal server error.' });
+    }
 });
 
 
