@@ -38,12 +38,6 @@ export default function FilterMoviesCard(props) {
     genres.unshift({ id: "0", name: "All" });
   }
 
-  // const sort = props.orderFilter
- 
-  // console.log("sort", sort)
-  // if (sort[0].name !== "All"){
-  //   sort.unshift({ id:"0", name: "All" });
-  // }
 
   const handleChange = (e, type, value) => {
     e.preventDefault();

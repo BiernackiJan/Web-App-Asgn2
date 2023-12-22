@@ -22,7 +22,6 @@ const MovieActorsPage = () => {
 
     const movieCast = credits
 
-    // console.log("Movie Actors Page", movieCast)
 
     return (
         <>

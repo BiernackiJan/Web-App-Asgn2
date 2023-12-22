@@ -56,7 +56,6 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 
 router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
-    console.log(req)
     const upcomingMovies = await getUpcomingMovies();
     res.status(200).json(upcomingMovies);
 }));
@@ -174,5 +173,35 @@ router.get('/sorted/:sort', asyncHandler(async (req, res) => {
         res.status(404).json({message: 'The movie you requested could not be found.', status_code: 404});
     }
 }));
+
+router.get('/:id/myReviews', async (req, res) => {
+    const mov = await getMovie(req.params.id)
+    const movie = await movieModel.findByMovie(mov);
+    const reviews = movie?.reviews || []
+    res.status(200).json(reviews);
+});
+
+
+
+router.post('/addReview', async (req, res) => {
+    try {
+        const movie = await movieModel.findByMovie(req.body.movie);
+        const review = req.body.reviews
+
+
+
+        if (!movie) {
+            await movieModel.create(req.body)
+        }
+
+        // Find the movie by ID and update their review array
+        await movieModel.findOneAndUpdate(movie, { $addToSet: { reviews: review } });
+
+        res.status(200).json({ success: true, msg: 'Review added.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, msg: 'Internal server error.' });
+    }
+});
 
 export default router;

@@ -11,10 +11,16 @@ import Spinner from '../spinner'
 
 const TemplateMoviePage = ({ movie, children}) => {
   const { id } = useParams();
-  const { data , error, isLoading, isError } = useQuery(
-    ["images", { id: movie.id }],
-    () => getMovieImages(id)
+  const { data , error, isLoading, isError, refetch } = useQuery(
+    ["images", { id: id }],
+    () => getMovieImages(movie.id)
   );
+
+  
+  React.useEffect(() => {
+    // Refetch data when the movie ID changes
+    refetch();
+  }, [id, refetch]);
 
   if (isLoading) {
     return <Spinner />;

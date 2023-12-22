@@ -272,7 +272,6 @@
 //------------------------------------------------------------------------------------------------------------------------
 
 export const getMovies = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies', {
       
@@ -286,7 +285,6 @@ export const getMovies = async () => {
 
 
 export const getUpcomingMovies = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies/tmdb/upcoming', {
       
@@ -300,7 +298,6 @@ export const getUpcomingMovies = async () => {
 
 
 export const getMovie = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/${id}`, {
       
@@ -313,7 +310,6 @@ export const getMovie = async (id) => {
 };
 
 export const getMovieImages = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/${id}/images`, {
       
@@ -326,7 +322,6 @@ export const getMovieImages = async (id) => {
 };
 
 export const getGenres = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies/tmdb/genres', {
       
@@ -343,12 +338,12 @@ export const getGenres = async () => {
 
 
 export const getMovieReviews = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/${id}/reviews`, {
       
     headers: {
-      'Authorization': window.localStorage.getItem('token')
+      'Authorization': window.localStorage.getItem('token'),
+      'Content-Type': 'application/json'
     }
   }
   )
@@ -358,7 +353,6 @@ export const getMovieReviews = async (id) => {
 
 
 export const getTopRatedMovies = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies/tmdb/topRated', {
       
@@ -371,7 +365,6 @@ export const getTopRatedMovies = async () => {
 };
 
 export const getNowPlayingMovies = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies/tmdb/nowPlaying', {
       
@@ -384,7 +377,6 @@ export const getNowPlayingMovies = async () => {
 };
 
 export const getCast = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/${id}/cast`, {
       
@@ -397,7 +389,6 @@ export const getCast = async (id) => {
 };
 
 export const getActorImages = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/actor/${id}/image`, {
       
@@ -410,7 +401,6 @@ export const getActorImages = async (id) => {
 };
 
 export const getActorsWeekly = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies/actors/weekly', {
       
@@ -423,7 +413,6 @@ export const getActorsWeekly = async () => {
 };
 
 export const getActorsDaily = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies/actors/daily', {
       
@@ -436,7 +425,6 @@ export const getActorsDaily = async () => {
 };
 
 export const getActor = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/actor/${id}`, {
       
@@ -449,7 +437,6 @@ export const getActor = async (id) => {
 };
 
 export const getActorCredits = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/actor/${id}/credits`, {
       
@@ -463,7 +450,6 @@ export const getActorCredits = async (id) => {
 
 
 export const getRecommendedMovies = async (id) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/${id}/recommended`, {
       
@@ -476,7 +462,6 @@ export const getRecommendedMovies = async (id) => {
 };
 
 export const getPopularActors = async () => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     'http://localhost:8080/api/movies/actors/popular', {
       
@@ -490,7 +475,6 @@ export const getPopularActors = async () => {
 
 
 export const getSortedMovies = async (orderFilter) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(
     `http://localhost:8080/api/movies/sorted/${orderFilter}`, {
       
@@ -528,8 +512,6 @@ export const signup = async (username, password) => {
 
 
 export const addFavourites = async (movie, username) => {
-  console.log(window.localStorage.getItem('token'))
-  console.log(movie, username)
   const response = await fetch('http://localhost:8080/api/users/addFavourites', {
       headers: {
         'Authorization': window.localStorage.getItem('token'),
@@ -542,7 +524,6 @@ export const addFavourites = async (movie, username) => {
 };
 
 export const getFavourites = async (username) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(`http://localhost:8080/api/users/getFavourites/${username}`, {
       headers: {
         'Authorization': window.localStorage.getItem('token'),
@@ -554,8 +535,6 @@ export const getFavourites = async (username) => {
 
 
 export const addToList = async (movie, username) => {
-  console.log(window.localStorage.getItem('token'))
-  console.log(movie, username)
   const response = await fetch('http://localhost:8080/api/users/addToWatchList', {
       headers: {
         'Authorization': window.localStorage.getItem('token'),
@@ -568,7 +547,6 @@ export const addToList = async (movie, username) => {
 };
 
 export const getWatchList = async (username) => {
-  console.log(window.localStorage.getItem('token'))
   const response = await fetch(`http://localhost:8080/api/users/getWatchList/${username}`, {
       headers: {
         'Authorization': window.localStorage.getItem('token'),
@@ -579,8 +557,6 @@ export const getWatchList = async (username) => {
 };
 
 export const removeFavourite = async (movie, username) => {
-  console.log(window.localStorage.getItem('token'))
-  console.log(movie, username)
   const response = await fetch('http://localhost:8080/api/users/removeFavourite', {
       headers: {
         'Authorization': window.localStorage.getItem('token'),
@@ -594,8 +570,6 @@ export const removeFavourite = async (movie, username) => {
 
 
 export const removeFromList = async (movie, username) => {
-  console.log(window.localStorage.getItem('token'))
-  console.log(movie, username)
   const response = await fetch('http://localhost:8080/api/users/removeFromList', {
       headers: {
         'Authorization': window.localStorage.getItem('token'),
@@ -603,6 +577,31 @@ export const removeFromList = async (movie, username) => {
       },
       method: 'post',
       body: JSON.stringify({ movie: movie, username: username })
+  });
+  return response.json();
+};
+
+
+
+export const getDbReviews = async (movie) => {
+  const response = await fetch(`http://localhost:8080/api/movies/${movie}/myReviews`, {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+      },
+      method: 'get',
+  });
+  return response.json();
+};
+
+
+export const addReview = async (movie, review) => {
+  const response = await fetch('http://localhost:8080/api/movies/addReview', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ movie: movie, reviews: review })
   });
   return response.json();
 };

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect} from "react";
-import { addFavourites, getFavourites, getWatchList, addToList, removeFavourite, removeFromList } from "../api/movies-api";
+import { addFavourites, getFavourites, getWatchList, addToList, removeFavourite, removeFromList, addReview, getDbReviews } from "../api/movies-api";
 import { AuthContext } from "./authContext";
 
 export const MoviesContext = React.createContext(null);
@@ -8,6 +8,9 @@ const MoviesContextProvider = (props) => {
   const { userName } = useContext(AuthContext)
   const [favorites, setFavorites] = useState( [] )
   const [watchList, setWatchList] = useState( [] )
+  const [myReviews, setMyReviews] = useState( [] ) 
+  const [theMovie, setMovie] = useState( {} )
+
   
 
   const addToFavorites = async (movie) => {
@@ -34,12 +37,19 @@ const MoviesContextProvider = (props) => {
     setWatchList(watch)
   }
 
-
-  const [myReviews, setMyReviews] = useState( {} ) 
-
-  const addReview = (movie, review) => {
-    setMyReviews( {...myReviews, [movie.id]: review } )
+  const addToReviews = async (movie, review) => {
+    const result = await addReview(movie, review);
+    
+    getFavorites()
+    return (result.code === 201) ? true : false;
   };
+
+
+  const getMyReviews = async (movie) => {
+    const rev = await getDbReviews(movie.id)
+    setMyReviews(rev)
+  }
+
   
   // We will use this function in a later section
   const removeFromFavorites = async (movie) => {
@@ -51,6 +61,7 @@ const MoviesContextProvider = (props) => {
     removeFromList(movie , userName)
     getTheList()
   };
+
 
 
 
@@ -78,13 +89,17 @@ const MoviesContextProvider = (props) => {
       value={{
         favorites,
         watchList,
+        myReviews,
         addToFavorites,
         getFavorites,
         addToWatchList,
         getTheList,
         removeFromFavorites,
         removeFromWatchList,
-        addReview,
+        addToReviews,
+        getMyReviews,
+        setMovie,
+        theMovie
       }}
     >
       {props.children}
